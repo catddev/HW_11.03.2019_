@@ -26,8 +26,7 @@ char*letterSort(char*str) {
 
 // 2.	***Пользователь вводит 2 строки, программа формирует третью строку, в которую помещает общие символы двух строк.
 char*commonSym(char*str1, char*str2) {
-	int prove = 0, k = 0;
-
+	int k = 0;
 	int n, m;
 	if (strlen(str1) < strlen(str2))
 	{
@@ -39,83 +38,30 @@ char*commonSym(char*str1, char*str2) {
 		n = strlen(str2);
 		m = strlen(str1);
 	}
+	//cout << n << " " << m << endl;
 
-	cout << n << " " << m << endl;
-
-	char tmp[2];
-	char*p = tmp, *p1 = tmp + 1;
-	int* index = new int[n];
-	int d = 0;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < n; i++) // идем по более короткой строке
 	{
-		for (int j = 0; j < m; j++)
+		for (int j = k; j < m; j++) //j=k чтобы при сравнении не привлекал отсортированннеы общие элементы в начале второй строки, а бегал по тем, что еще не имеют совпадений с первой строкой
 		{
-			*p = str1[i];
-			*p1 = str2[j];
-			if (j != index)
+			if (strncmp(str1+i, str2+j, 1) == 0) //сравнение по одному символу
 			{
-				if (strcmp(p, p1) == 0)
-				{
-					k++;
-					index[d++] = j;
-					break;
-				}
-			}
-		}
-	}
-	cout << "k (минимальный размер нового массива) = " << k << endl;
-
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			*p = str1[j];
-			*p1 = str2[j];
-			if (strcmp(p, p1) == 0)
-			{
-				index[k--] = j;
+				swap(str2[j], str2[k]); //сортировка, перенос общего элемента на начало более длинной строки
+				k++;
 				break;
 			}
 		}
 	}
+	cout << "k (минимальный размер новой строки) = " << k << endl;
 
-	char *tmp_line = new char[k];
-	int h = 0;
-
-	for (int i = 0; i < n; i++)
-	{
-		prove = 0;
-		for (int j = 0; j < m; j++)
-		{
-			*p = str1[j];
-			*p1 = str2[j];
-			if (strcmp(p, p1) == 0)
-			{
-				prove++;
-			}
-		}
-		if (prove != 0)
-		{
-			tmp[h++] = str1[i];
-
-			//del_index(copy2, mm, index);
-		}
-
-	}
+	char *tmp = new char[k+1];
 
 	for (int i = 0; i < k; i++)
-		cout << tmp_line[i] << " ";
-	cout << endl << endl;
-
-	//delete[] tmp_line;
-
-	return tmp_line;
+		tmp[i] = str2[i]; //запись в новую строку отсортированной части второй строки, т.е. только общих элементов
+	tmp[k] = '\0';
+	//cout << tmp << endl;
+	return tmp;
 }
-
-
-
-
-
 
 int main()
 {
@@ -138,16 +84,18 @@ int main()
 			cin.getline(str, 100);
 			char*p = letterSort(str);
 
-			cout << p << endl;
+			cout << p << endl << endl;
 		}
 		break;
 		case 2:
 		{
-			char str1[100] = "text123";
+			char str1[100] = "terxt123";
 			char str2[100] = "ttxeeet345";
 
 			char*line = commonSym(str1, str2);
-			cout << line << endl;
+			cout << line << endl << endl;
+
+			delete[] line;
 		}
 		break;
 		default:
