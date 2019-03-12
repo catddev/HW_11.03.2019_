@@ -26,8 +26,7 @@ char*letterSort(char*str) {
 
 // 2.	***Пользователь вводит 2 строки, программа формирует третью строку, в которую помещает общие символы двух строк.
 char*commonSym(char*str1, char*str2) {
-	int k = 0;
-	int n, m;
+	int k = 0, n, m;
 	if (strlen(str1) < strlen(str2))
 	{
 		n = strlen(str1);
